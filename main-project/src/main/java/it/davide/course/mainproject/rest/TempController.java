@@ -1,7 +1,8 @@
 package it.davide.course.mainproject.rest;
 
-import it.davide.course.mainproject.inter.Coach;
+import it.davide.course.mainproject.common.Coach;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,10 +39,19 @@ public class TempController {
 
     private final Coach myCoach;
 
+    //Constructor injection
     @Autowired
-    public TempController(Coach theCoach){
+    public TempController(
+            @Qualifier(value = "aquatic") Coach theCoach){
+        System.out.println("In constructor: " + this.getClass().getSimpleName());
         myCoach = theCoach;
     }
+
+    //Setter injection
+//    @Autowired
+//    public void setCoach(Coach theCoach){
+//        myCoach = theCoach;
+//    }
 
     @GetMapping("/daily-workout")
     public String getDailyWorkout(){

@@ -1,4 +1,4 @@
-package it.davide.course.mainproject.inter;
+package it.davide.course.mainproject.common;
 
 public interface Coach {
     String getDailyWorkout();
