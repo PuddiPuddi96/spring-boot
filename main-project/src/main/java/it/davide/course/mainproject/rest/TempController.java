@@ -10,19 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TempController {
 
-    //Inject properties
-    @Value("${coach.name}")
-    private String coachName;
-
-    @Value("${team.name}")
-    private String teamName;
-
-    //endpoint for properties
-    @GetMapping("/info-pro")
-    public String info() {
-        return "Coach: " + coachName + " Team:" + teamName;
-    }
-
     @GetMapping("/")
     public String helloWorld() {
         return "Hello World";
@@ -36,6 +23,24 @@ public class TempController {
     /**
      * ---------------------------------------------
      */
+
+    //Inject properties
+    @Value("${coach.name}")
+    private String coachName;
+
+    @Value("${team.name}")
+    private String teamName;
+
+    //endpoint for properties
+    @GetMapping("/info-pro")
+    public String info() {
+        return "Coach: " + coachName + " Team:" + teamName;
+    }
+
+    /**
+     * ---------------------------------------------
+     */
+
 
     private final Coach myCoach;
 
