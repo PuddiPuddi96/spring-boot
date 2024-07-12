@@ -24,11 +24,33 @@ public class MainProjectApplication {
 	public CommandLineRunner commandLineRunner(StudentDao studentDao){
 		return runner -> {
 			//createStudent(studentDao);
-			//createMultipleStudent(studentDao);
+			createMultipleStudent(studentDao);
 			//readStudent(studentDao);
 			//queryForStudents(studentDao);
-			queryForStudentsByLastName(studentDao);
+			//queryForStudentsByLastName(studentDao);
+			//updateStudent(studentDao);
+			//deleteStudent(studentDao);
+			//deleteAll(studentDao);
 		};
+	}
+
+	private void deleteAll(StudentDao studentDao) {
+		System.out.println("Deleted row count: " + studentDao.deleteAll());
+	}
+
+	private void deleteStudent(StudentDao studentDao) {
+		int studentId = 3;
+		studentDao.delete(studentId);
+	}
+
+	private void updateStudent(StudentDao studentDao) {
+		int studentId = 1;
+		Student student = studentDao.findById(studentId);
+
+		student.setFirstName("Paoletto");
+		studentDao.update(student);
+
+		System.out.println("Updated student: " + student);
 	}
 
 	private void queryForStudentsByLastName(StudentDao studentDao) {
