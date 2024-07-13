@@ -24,7 +24,7 @@ public class MainProjectApplication {
 	public CommandLineRunner commandLineRunner(StudentDao studentDao){
 		return runner -> {
 			//createStudent(studentDao);
-			createMultipleStudent(studentDao);
+			//createMultipleStudent(studentDao);
 			//readStudent(studentDao);
 			//queryForStudents(studentDao);
 			//queryForStudentsByLastName(studentDao);
