@@ -28,6 +28,31 @@
                     <option th:each="country : ${countries}" th:value="${country}" th:text="${country}"/>
                 </select>
             </label>
+
+        <br><br>
+
+        Favourite program language:
+        <label>
+            <input type="radio"
+                   th:field="*{favouriteLanguage}"
+                   th:each="language : ${languages}"
+                   th:value="${language}"
+                   th:text="${language}"
+            />
+        </label>
+
+        <br><br>
+
+        Favourite Operating System:
+        <label>
+            <input type="checkbox"
+                   th:field="*{favouriteSystem}"
+                   th:each="system : ${systems}"
+                   th:value="${system}"
+                   th:text="${system}"
+            />
+        </label>
+
         <br><br>
 
         <input type="submit" value="Submit">
