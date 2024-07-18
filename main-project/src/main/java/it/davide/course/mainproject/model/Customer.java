@@ -1,5 +1,6 @@
 package it.davide.course.mainproject.model;
 
+import it.davide.course.mainproject.validation.CourseCode;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,4 +24,7 @@ public class Customer {
 
     @Pattern(regexp = "^[a-zA-Z0-9]{5}", message = "only 5 chars/digits")
     private String postalCode;
+
+    @CourseCode(value = "ABC", message = "Must start with ABC")
+    private String courseCode;
 }
