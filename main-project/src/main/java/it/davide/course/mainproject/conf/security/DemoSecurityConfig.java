@@ -15,8 +15,6 @@ import javax.sql.DataSource;
 @Configuration
 public class DemoSecurityConfig {
 
-
-
     private static final String EMPLOYEE = "EMPLOYEE";
     private static final String MANAGER = "MANAGER";
     private static final String ADMIN = "ADMIN";
@@ -40,20 +38,33 @@ public class DemoSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeRequests(configurer ->
+//        http.authorizeHttpRequests(configurer ->
+//                configurer
+//                        .requestMatchers(HttpMethod.GET, BASE_URL).hasRole(EMPLOYEE)
+//                        .requestMatchers(HttpMethod.GET, BASE_URL + "/**").hasRole(EMPLOYEE)
+//                        .requestMatchers(HttpMethod.POST, BASE_URL).hasRole(MANAGER)
+//                        .requestMatchers(HttpMethod.PUT, BASE_URL + "/**").hasRole(MANAGER)
+//                        .requestMatchers(HttpMethod.DELETE, BASE_URL + "/**").hasRole(ADMIN)
+//        );
+//
+//        //Basic authentication
+//        http.httpBasic(Customizer.withDefaults());
+//
+//        //Disable CSRF
+//        http.csrf(AbstractHttpConfigurer::disable);
+//
+//        return http.build();
+
+        http.authorizeHttpRequests(configurer ->
                 configurer
-                        .requestMatchers(HttpMethod.GET, BASE_URL).hasRole(EMPLOYEE)
-                        .requestMatchers(HttpMethod.GET, BASE_URL + "/**").hasRole(EMPLOYEE)
-                        .requestMatchers(HttpMethod.POST, BASE_URL).hasRole(MANAGER)
-                        .requestMatchers(HttpMethod.PUT, BASE_URL + "/**").hasRole(MANAGER)
-                        .requestMatchers(HttpMethod.DELETE, BASE_URL + "/**").hasRole(ADMIN)
+                        .anyRequest()
+                        .authenticated()
+        ).formLogin(form ->
+                form
+                        .loginPage("/login")
+                        .loginProcessingUrl("/authenticate")
+                        .permitAll()
         );
-
-        //Basic authentication
-        http.httpBasic(Customizer.withDefaults());
-
-        //Disable CSRF
-        http.csrf(AbstractHttpConfigurer::disable);
 
         return http.build();
     }
