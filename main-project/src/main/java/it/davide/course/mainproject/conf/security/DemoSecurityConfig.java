@@ -6,6 +6,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
@@ -64,6 +65,7 @@ public class DemoSecurityConfig {
                         .loginPage("/login")
                         .loginProcessingUrl("/authenticate")
                         .permitAll()
+        ).logout(LogoutConfigurer::permitAll
         );
 
         return http.build();
