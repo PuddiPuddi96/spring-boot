@@ -12,4 +12,9 @@ public class DemoSecurityController {
     public String showHome() {
         return "security/home";
     }
+
+    @GetMapping("/leaders")
+    public String showLeaders() {
+        return "security/leaders";
+    }
 }

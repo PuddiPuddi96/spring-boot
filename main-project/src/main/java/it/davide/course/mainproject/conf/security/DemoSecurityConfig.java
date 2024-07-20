@@ -21,6 +21,7 @@ public class DemoSecurityConfig {
     private static final String ADMIN = "ADMIN";
 
     private static final String BASE_URL = "/magic-api/employees";
+    private static final String SECURITY_BASE_URL = "/demo-security-controller";
 
     @Bean
     public UserDetailsManager userDetailsManager(DataSource dataSource) {
@@ -58,6 +59,9 @@ public class DemoSecurityConfig {
 
         http.authorizeHttpRequests(configurer ->
                 configurer
+                        .requestMatchers(HttpMethod.GET, SECURITY_BASE_URL).hasRole(EMPLOYEE)
+                        .requestMatchers(HttpMethod.GET, SECURITY_BASE_URL + "/leaders/**").hasRole(MANAGER)
+                        .requestMatchers(HttpMethod.GET, SECURITY_BASE_URL + "/systems/**").hasRole(ADMIN)
                         .anyRequest()
                         .authenticated()
         ).formLogin(form ->
