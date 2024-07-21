@@ -70,6 +70,8 @@ public class DemoSecurityConfig {
                         .loginProcessingUrl("/authenticate")
                         .permitAll()
         ).logout(LogoutConfigurer::permitAll
+        ).exceptionHandling(configurer ->
+                configurer.accessDeniedPage("/access-denied")
         );
 
         return http.build();
