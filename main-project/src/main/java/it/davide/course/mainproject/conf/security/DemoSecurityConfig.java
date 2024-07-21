@@ -3,9 +3,7 @@ package it.davide.course.mainproject.conf.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
@@ -27,10 +25,12 @@ public class DemoSecurityConfig {
     public UserDetailsManager userDetailsManager(DataSource dataSource) {
         JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
 
+        //Define a query to retrieve a user by username -> how to find user
         jdbcUserDetailsManager.setUsersByUsernameQuery(
-                "SELECT user_id, pw, active FROM members WHERE user_id=?"
+                "SELECT user_id, pw, active FROM members WHERE user_id=?" //user_id = name from login
         );
 
+        //Define a query to retrieve the role by username -> hot to find role
         jdbcUserDetailsManager.setAuthoritiesByUsernameQuery(
                 "SELECT user_id, role FROM roles where user_id=?"
         );
@@ -101,6 +101,8 @@ public class DemoSecurityConfig {
 //        return new InMemoryUserDetailsManager(davide, luca, nicola);
 //    }
 
+
+    //Default Spring Security Database Schema https://docs.spring.io/spring-security/site/docs/4.2.x/reference/html/appendix-schema.html
 //    @Bean
 //    public UserDetailsManager userDetailsManager(DataSource dataSource) {
 //        return new JdbcUserDetailsManager(dataSource);
