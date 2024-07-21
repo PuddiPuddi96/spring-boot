@@ -17,4 +17,9 @@ public class DemoSecurityController {
     public String showLeaders() {
         return "security/leaders";
     }
+
+    @GetMapping("/systems")
+    public String showSystems() {
+        return "security/systems";
+    }
 }
