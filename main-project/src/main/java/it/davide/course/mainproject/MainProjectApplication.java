@@ -9,6 +9,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.List;
+
 //@SpringBootApplication(
 //		scanBasePackages = {"it.davide.course.mainproject",
 //		"it.davide.course.util"}
@@ -29,8 +31,21 @@ public class MainProjectApplication {
 			//findInstructorDetail(instructorDao);
 			//deleteInstructorDetail(instructorDao);
 			//createInstructorWithCourses(instructorDao);
-			findInstructorWIthCourses(instructorDao);
+			//findInstructorWIthCourses(instructorDao);
+			findCoursesForInstructor(instructorDao);
 		};
+	}
+
+	private void findCoursesForInstructor(InstructorDao instructorDao) {
+		int id = 1;
+
+		Instructor instructor = instructorDao.findById(id);
+		System.out.println("Instructor: " + instructor);
+
+		List<Course> courses = instructorDao.findCoursesByInstructorId(id);
+
+		instructor.setCourses(courses);
+		System.out.println("Courses: " + instructor.getCourses());
 	}
 
 	private void findInstructorWIthCourses(InstructorDao instructorDao) {

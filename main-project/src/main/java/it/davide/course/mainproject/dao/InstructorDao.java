@@ -1,7 +1,10 @@
 package it.davide.course.mainproject.dao;
 
+import it.davide.course.mainproject.entity.instructor.Course;
 import it.davide.course.mainproject.entity.instructor.Instructor;
 import it.davide.course.mainproject.entity.instructor.InstructorDetail;
+
+import java.util.List;
 
 public interface InstructorDao {
 
@@ -11,5 +14,7 @@ public interface InstructorDao {
 
     InstructorDetail findInstructorDetailById(int id);
     void deleteInstructorDetailById(int id);
+
+    List<Course> findCoursesByInstructorId(int instructorId);
 
 }

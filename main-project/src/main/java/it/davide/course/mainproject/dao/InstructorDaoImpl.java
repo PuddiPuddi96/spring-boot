@@ -1,11 +1,14 @@
 package it.davide.course.mainproject.dao;
 
+import it.davide.course.mainproject.entity.instructor.Course;
 import it.davide.course.mainproject.entity.instructor.Instructor;
 import it.davide.course.mainproject.entity.instructor.InstructorDetail;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Repository
 public class InstructorDaoImpl implements InstructorDao {
@@ -48,5 +51,13 @@ public class InstructorDaoImpl implements InstructorDao {
         //remove the associated object reference - break bi-directional link
         instructorDetail.getInstructor().setInstructorDetail(null);
         em.remove(instructorDetail);
+    }
+
+    @Override
+    public List<Course> findCoursesByInstructorId(int instructorId) {
+        return em.createQuery(
+                "from Course where instructor.id = :id", Course.class)
+                .setParameter("id", instructorId)
+                .getResultList();
     }
 }
