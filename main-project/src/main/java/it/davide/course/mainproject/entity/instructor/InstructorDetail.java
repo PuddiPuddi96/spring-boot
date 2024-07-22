@@ -9,7 +9,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
+//@ToString
 @Entity
 @Table(name = "instructor_detail")
 public class InstructorDetail {
@@ -29,4 +29,16 @@ public class InstructorDetail {
 
     @Column(name = "hobby")
     private String hobby;
+
+    @OneToOne(mappedBy = "instructorDetail", cascade = CascadeType.ALL)
+    private Instructor instructor;
+
+    @Override
+    public String toString() {
+        return "InstructorDetail{" +
+                "hobby='" + hobby + '\'' +
+                ", youtubeChannel='" + youtubeChannel + '\'' +
+                ", id=" + id +
+                '}';
+    }
 }

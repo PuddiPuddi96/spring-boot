@@ -1,6 +1,7 @@
 package it.davide.course.mainproject.dao;
 
 import it.davide.course.mainproject.entity.instructor.Instructor;
+import it.davide.course.mainproject.entity.instructor.InstructorDetail;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -31,5 +32,10 @@ public class InstructorDaoImpl implements InstructorDao {
     @Transactional
     public void deleteById(int id) {
         em.remove(em.find(Instructor.class, id));
+    }
+
+    @Override
+    public InstructorDetail findInstructorDetailById(int id) {
+        return em.find(InstructorDetail.class, id);
     }
 }

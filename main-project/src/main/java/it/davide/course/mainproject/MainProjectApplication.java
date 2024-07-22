@@ -24,8 +24,17 @@ public class MainProjectApplication {
 		return runner -> {
 			//createInstructor(instructorDao);
 			//findInstructor(instructorDao);
-			deleteInstructor(instructorDao);
+			//deleteInstructor(instructorDao);
+			findInstructorDetail(instructorDao);
 		};
+	}
+
+	private void findInstructorDetail(InstructorDao instructorDao) {
+		int id = 3;
+		InstructorDetail instructorDetail = instructorDao.findInstructorDetailById(id);
+		System.out.println("Instructor detail: " + instructorDetail);
+		System.out.println("Instructor: " + instructorDetail.getInstructor());
+
 	}
 
 	private void deleteInstructor(InstructorDao instructorDao) {
