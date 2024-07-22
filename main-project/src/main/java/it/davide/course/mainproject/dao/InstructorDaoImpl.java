@@ -42,6 +42,11 @@ public class InstructorDaoImpl implements InstructorDao {
     @Override
     @Transactional
     public void deleteInstructorDetailById(int id) {
-        em.remove(em.find(InstructorDetail.class, id));
+        //em.remove(em.find(InstructorDetail.class, id));
+        InstructorDetail instructorDetail = em.find(InstructorDetail.class, id);
+
+        //remove the associated object reference - break bi-directional link
+        instructorDetail.getInstructor().setInstructorDetail(null);
+        em.remove(instructorDetail);
     }
 }

@@ -31,7 +31,7 @@ public class MainProjectApplication {
 	}
 
 	private void deleteInstructorDetail(InstructorDao instructorDao) {
-		int id = 3;
+		int id = 4;
 		instructorDao.deleteInstructorDetailById(id);
 	}
 
