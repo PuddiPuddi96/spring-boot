@@ -10,6 +10,7 @@ public interface InstructorDao {
 
     void save(Instructor instructor);
     Instructor findById(int id);
+    void update(Instructor instructor);
     void deleteById(int id);
 
     InstructorDetail findInstructorDetailById(int id);

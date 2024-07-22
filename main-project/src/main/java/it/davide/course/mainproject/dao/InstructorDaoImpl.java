@@ -33,6 +33,12 @@ public class InstructorDaoImpl implements InstructorDao {
 
     @Override
     @Transactional
+    public void update(Instructor instructor) {
+        em.merge(instructor);
+    }
+
+    @Override
+    @Transactional
     public void deleteById(int id) {
         em.remove(em.find(Instructor.class, id));
     }
