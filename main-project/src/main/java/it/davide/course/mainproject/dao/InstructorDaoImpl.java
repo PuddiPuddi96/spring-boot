@@ -56,8 +56,18 @@ public class InstructorDaoImpl implements InstructorDao {
     @Override
     public List<Course> findCoursesByInstructorId(int instructorId) {
         return em.createQuery(
-                "from Course where instructor.id = :id", Course.class)
+                    "from Course where instructor.id = :id", Course.class
+                )
                 .setParameter("id", instructorId)
                 .getResultList();
+    }
+
+    @Override
+    public Instructor findInstructorByJoinFetch(int id) {
+        return em.createQuery(
+                    "select i from Instructor i join fetch i.courses join fetch i.instructorDetail where i.id = :id", Instructor.class
+                )
+                .setParameter("id", id)
+                .getSingleResult();
     }
 }

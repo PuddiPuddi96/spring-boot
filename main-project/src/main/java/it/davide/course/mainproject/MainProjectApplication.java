@@ -32,8 +32,17 @@ public class MainProjectApplication {
 			//deleteInstructorDetail(instructorDao);
 			//createInstructorWithCourses(instructorDao);
 			//findInstructorWIthCourses(instructorDao);
-			findCoursesForInstructor(instructorDao);
+			//findCoursesForInstructor(instructorDao);
+			findInstructorWIthCoursesJoinFetch(instructorDao);
 		};
+	}
+
+	private void findInstructorWIthCoursesJoinFetch(InstructorDao instructorDao) {
+		int id = 1;
+
+		Instructor instructor = instructorDao.findInstructorByJoinFetch(id);
+		System.out.println("Instructor: " + instructor);
+		System.out.println("Courses: " + instructor.getCourses());
 	}
 
 	private void findCoursesForInstructor(InstructorDao instructorDao) {
