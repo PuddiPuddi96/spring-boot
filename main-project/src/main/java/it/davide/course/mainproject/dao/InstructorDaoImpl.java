@@ -40,7 +40,13 @@ public class InstructorDaoImpl implements InstructorDao {
     @Override
     @Transactional
     public void deleteById(int id) {
-        em.remove(em.find(Instructor.class, id));
+        //em.remove(em.find(Instructor.class, id));
+        Instructor instructor = em.find(Instructor.class, id);
+
+        instructor.getCourses()
+                .forEach(course -> course.setInstructor(null));
+
+        em.remove(instructor);
     }
 
     @Override
