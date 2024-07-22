@@ -23,8 +23,14 @@ public class MainProjectApplication {
 	public CommandLineRunner commandLineRunner(InstructorDao instructorDao) {
 		return runner -> {
 			//createInstructor(instructorDao);
-			findInstructor(instructorDao);
+			//findInstructor(instructorDao);
+			deleteInstructor(instructorDao);
 		};
+	}
+
+	private void deleteInstructor(InstructorDao instructorDao) {
+		int id = 2;
+		instructorDao.deleteById(id);
 	}
 
 	private void findInstructor(InstructorDao instructorDao) {
