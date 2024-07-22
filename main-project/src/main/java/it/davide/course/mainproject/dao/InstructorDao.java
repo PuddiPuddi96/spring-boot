@@ -10,5 +10,6 @@ public interface InstructorDao {
     void deleteById(int id);
 
     InstructorDetail findInstructorDetailById(int id);
+    void deleteInstructorDetailById(int id);
 
 }

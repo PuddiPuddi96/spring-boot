@@ -38,4 +38,10 @@ public class InstructorDaoImpl implements InstructorDao {
     public InstructorDetail findInstructorDetailById(int id) {
         return em.find(InstructorDetail.class, id);
     }
+
+    @Override
+    @Transactional
+    public void deleteInstructorDetailById(int id) {
+        em.remove(em.find(InstructorDetail.class, id));
+    }
 }

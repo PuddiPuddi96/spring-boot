@@ -25,8 +25,14 @@ public class MainProjectApplication {
 			//createInstructor(instructorDao);
 			//findInstructor(instructorDao);
 			//deleteInstructor(instructorDao);
-			findInstructorDetail(instructorDao);
+			//findInstructorDetail(instructorDao);
+			deleteInstructorDetail(instructorDao);
 		};
+	}
+
+	private void deleteInstructorDetail(InstructorDao instructorDao) {
+		int id = 3;
+		instructorDao.deleteInstructorDetailById(id);
 	}
 
 	private void findInstructorDetail(InstructorDao instructorDao) {
