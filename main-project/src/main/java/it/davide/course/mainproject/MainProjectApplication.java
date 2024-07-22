@@ -1,6 +1,7 @@
 package it.davide.course.mainproject;
 
 import it.davide.course.mainproject.dao.InstructorDao;
+import it.davide.course.mainproject.entity.instructor.Course;
 import it.davide.course.mainproject.entity.instructor.Instructor;
 import it.davide.course.mainproject.entity.instructor.InstructorDetail;
 import org.springframework.boot.CommandLineRunner;
@@ -26,8 +27,44 @@ public class MainProjectApplication {
 			//findInstructor(instructorDao);
 			//deleteInstructor(instructorDao);
 			//findInstructorDetail(instructorDao);
-			deleteInstructorDetail(instructorDao);
+			//deleteInstructorDetail(instructorDao);
+			//createInstructorWithCourses(instructorDao);
+			findInstructorWIthCourses(instructorDao);
 		};
+	}
+
+	private void findInstructorWIthCourses(InstructorDao instructorDao) {
+		int id = 1;
+		Instructor instructor = instructorDao.findById(id);
+
+		System.out.println("Instructor: " + instructor);
+		System.out.println("Courses: " + instructor.getCourses());
+	}
+
+	private void createInstructorWithCourses(InstructorDao instructorDao) {
+		Instructor instructor = new Instructor(
+				"Lucio",
+				"Di Michele",
+				"dimichele@gmail.com"
+		);
+
+		InstructorDetail instructorDetail = new InstructorDetail(
+				"https://www.youtube.com/@Zeb89",
+				"Mi piace fare cose"
+		);
+
+		instructor.setInstructorDetail(instructorDetail);
+
+		Course course1 = new Course("Corso 1");
+		Course course2 = new Course("Corso 2");
+		Course course3 = new Course("Corso 3");
+
+		instructor.add(course1);
+		instructor.add(course2);
+		instructor.add(course3);
+
+		System.out.println("Saving instructor: " + instructor);
+		instructorDao.save(instructor);
 	}
 
 	private void deleteInstructorDetail(InstructorDao instructorDao) {
