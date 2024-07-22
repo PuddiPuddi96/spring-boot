@@ -34,8 +34,19 @@ public class MainProjectApplication {
 			//findInstructorWIthCourses(instructorDao);
 			//findCoursesForInstructor(instructorDao);
 			//findInstructorWIthCoursesJoinFetch(instructorDao);
-			updateInstructor(instructorDao);
+			//updateInstructor(instructorDao);
+			updateCourse(instructorDao);
 		};
+	}
+
+	private void updateCourse(InstructorDao instructorDao) {
+		int id = 10;
+
+		Course course = instructorDao.findCourseById(id);
+		System.out.println("Course to update: " + course);
+
+		course.setTitle("Non sai come studiarmi");
+		instructorDao.updateCourse(course);
 	}
 
 	private void updateInstructor(InstructorDao instructorDao) {

@@ -76,4 +76,15 @@ public class InstructorDaoImpl implements InstructorDao {
                 .setParameter("id", id)
                 .getSingleResult();
     }
+
+    @Override
+    public Course findCourseById(int id) {
+        return em.find(Course.class, id);
+    }
+
+    @Override
+    @Transactional
+    public void updateCourse(Course course) {
+        em.merge(course);
+    }
 }
