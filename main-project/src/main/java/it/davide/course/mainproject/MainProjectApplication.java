@@ -22,8 +22,15 @@ public class MainProjectApplication {
 	@Bean
 	public CommandLineRunner commandLineRunner(InstructorDao instructorDao) {
 		return runner -> {
-			createInstructor(instructorDao);
+			//createInstructor(instructorDao);
+			findInstructor(instructorDao);
 		};
+	}
+
+	private void findInstructor(InstructorDao instructorDao) {
+		int id = 1;
+		System.out.println("Finding instructor with id: " + id);
+		System.out.println("Instructor: " + instructorDao.findById(id));
 	}
 
 	private void createInstructor(InstructorDao instructorDao) {

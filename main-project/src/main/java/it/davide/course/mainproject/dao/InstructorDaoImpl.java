@@ -21,4 +21,9 @@ public class InstructorDaoImpl implements InstructorDao {
     public void save(Instructor instructor) {
         em.persist(instructor);
     }
+
+    @Override
+    public Instructor findById(int id) {
+        return em.find(Instructor.class, id);
+    }
 }
