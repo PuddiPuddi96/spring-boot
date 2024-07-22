@@ -93,4 +93,10 @@ public class InstructorDaoImpl implements InstructorDao {
     public void updateCourse(Course course) {
         em.merge(course);
     }
+
+    @Override
+    @Transactional
+    public void deleteCourseById(int id) {
+        em.remove(em.find(Course.class, id));
+    }
 }

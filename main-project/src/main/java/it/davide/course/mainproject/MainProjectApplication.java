@@ -27,7 +27,7 @@ public class MainProjectApplication {
 		return runner -> {
 			//createInstructor(instructorDao);
 			//findInstructor(instructorDao);
-			deleteInstructor(instructorDao);
+			//deleteInstructor(instructorDao);
 			//findInstructorDetail(instructorDao);
 			//deleteInstructorDetail(instructorDao);
 			//createInstructorWithCourses(instructorDao);
@@ -36,7 +36,12 @@ public class MainProjectApplication {
 			//findInstructorWIthCoursesJoinFetch(instructorDao);
 			//updateInstructor(instructorDao);
 			//updateCourse(instructorDao);
+			deleteCourse(instructorDao);
 		};
+	}
+
+	private void deleteCourse(InstructorDao instructorDao) {
+		instructorDao.deleteCourseById(10);
 	}
 
 	private void updateCourse(InstructorDao instructorDao) {
