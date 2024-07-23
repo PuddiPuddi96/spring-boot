@@ -1,6 +1,7 @@
 package it.davide.course.mainproject;
 
 import it.davide.course.mainproject.dao.InstructorDao;
+import it.davide.course.mainproject.entity.Student;
 import it.davide.course.mainproject.entity.instructor.Course;
 import it.davide.course.mainproject.entity.instructor.Instructor;
 import it.davide.course.mainproject.entity.instructor.InstructorDetail;
@@ -41,7 +42,18 @@ public class MainProjectApplication {
 			//saveCourseAndReviews(instructorDao);
 			//retrieveCourseAndReviews(instructorDao);
 			//deleteCourseAndReviews(instructorDao);
+			createCourseAndStudents(instructorDao);
 		};
+	}
+
+	private void createCourseAndStudents(InstructorDao instructorDao) {
+		Course course = new Course("Corso per pochi studenti");
+
+		course.addStudent(new Student("Gelsomina", "Garofalo", "aaa@gmail.com"));
+		course.addStudent(new Student("Gabriele", "Garofalo", "bbb@gmail.com"));
+		course.addStudent(new Student("Italo", "Garofalo", "cc@gmail.com"));
+
+		instructorDao.save(course);
 	}
 
 	private void deleteCourseAndReviews(InstructorDao instructorDao) {
@@ -60,9 +72,9 @@ public class MainProjectApplication {
 	private void saveCourseAndReviews(InstructorDao instructorDao) {
 		Course course = new Course("Il corso che non fa per te!");
 
-		course.add(new Review("Corso incredibile!"));
-		course.add(new Review("Scam!"));
-		course.add(new Review("Non riesco"));
+		course.addReview(new Review("Corso incredibile!"));
+		course.addReview(new Review("Scam!"));
+		course.addReview(new Review("Non riesco"));
 
 		instructorDao.save(course);
 		System.out.println("Course saved: " + course);
