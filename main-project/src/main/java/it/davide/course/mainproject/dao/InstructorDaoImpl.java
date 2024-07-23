@@ -117,4 +117,16 @@ public class InstructorDaoImpl implements InstructorDao {
                 .setParameter("id", id)
                 .getSingleResult();
     }
+
+    @Override
+    public Course findCourseAndStudentsById(int id) {
+        return em.createQuery(
+                        "select c from Course c " +
+                                "join fetch c.students " +
+                                "where c.id = :id",
+                        Course.class
+                )
+                .setParameter("id", id)
+                .getSingleResult();
+    }
 }
