@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -28,11 +31,24 @@ public class Course {
     @JoinColumn(name = "instructor_id")
     private Instructor instructor;
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "course_id")
+    private List<Review> reviews;
+
     @Override
     public String toString() {
         return "Course{" +
-                "id=" + id +
+                "reviews=" + reviews +
                 ", title='" + title + '\'' +
+                ", id=" + id +
                 '}';
+    }
+
+    public void add(Review review) {
+        if(reviews == null) {
+            reviews = new ArrayList<>();
+        }
+        reviews.add(review);
+
     }
 }

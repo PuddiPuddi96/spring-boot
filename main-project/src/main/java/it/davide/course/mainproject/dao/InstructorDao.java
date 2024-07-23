@@ -23,4 +23,6 @@ public interface InstructorDao {
     void updateCourse(Course course);
     void deleteCourseById(int id);
 
+    void save(Course course);
+
 }

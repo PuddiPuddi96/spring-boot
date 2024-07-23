@@ -4,6 +4,7 @@ import it.davide.course.mainproject.dao.InstructorDao;
 import it.davide.course.mainproject.entity.instructor.Course;
 import it.davide.course.mainproject.entity.instructor.Instructor;
 import it.davide.course.mainproject.entity.instructor.InstructorDetail;
+import it.davide.course.mainproject.entity.instructor.Review;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -36,8 +37,20 @@ public class MainProjectApplication {
 			//findInstructorWIthCoursesJoinFetch(instructorDao);
 			//updateInstructor(instructorDao);
 			//updateCourse(instructorDao);
-			deleteCourse(instructorDao);
+			//deleteCourse(instructorDao);
+			//saveCourseAndReviews(instructorDao);
 		};
+	}
+
+	private void saveCourseAndReviews(InstructorDao instructorDao) {
+		Course course = new Course("Il corso che non fa per te!");
+
+		course.add(new Review("Corso incredibile!"));
+		course.add(new Review("Scam!"));
+		course.add(new Review("Non riesco"));
+
+		instructorDao.save(course);
+		System.out.println("Course saved: " + course);
 	}
 
 	private void deleteCourse(InstructorDao instructorDao) {

@@ -99,4 +99,10 @@ public class InstructorDaoImpl implements InstructorDao {
     public void deleteCourseById(int id) {
         em.remove(em.find(Course.class, id));
     }
+
+    @Override
+    @Transactional
+    public void save(Course course) {
+        em.persist(course);
+    }
 }
