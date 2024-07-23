@@ -39,15 +39,21 @@ public class MainProjectApplication {
 			//updateCourse(instructorDao);
 			//deleteCourse(instructorDao);
 			//saveCourseAndReviews(instructorDao);
-			retrieveCourseAndReviews(instructorDao);
+			//retrieveCourseAndReviews(instructorDao);
+			//deleteCourseAndReviews(instructorDao);
 		};
+	}
+
+	private void deleteCourseAndReviews(InstructorDao instructorDao) {
+		int id = 12;
+		instructorDao.deleteCourseById(id);
 	}
 
 	private void retrieveCourseAndReviews(InstructorDao instructorDao) {
 		int id = 10;
 		Course course = instructorDao.findCourseAndReviewsById(id);
 
-		System.out.println("COurse: " + course);
+		System.out.println("Course: " + course);
 		System.out.println("Reviews: " + course.getReviews());
 	}
 
