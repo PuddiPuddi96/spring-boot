@@ -1,5 +1,6 @@
 package it.davide.course.mainproject.dao;
 
+import it.davide.course.mainproject.entity.Student;
 import it.davide.course.mainproject.entity.instructor.Course;
 import it.davide.course.mainproject.entity.instructor.Instructor;
 import it.davide.course.mainproject.entity.instructor.InstructorDetail;
@@ -125,6 +126,18 @@ public class InstructorDaoImpl implements InstructorDao {
                                 "join fetch c.students " +
                                 "where c.id = :id",
                         Course.class
+                )
+                .setParameter("id", id)
+                .getSingleResult();
+    }
+
+    @Override
+    public Student findStudentAndCoursesById(int id) {
+        return em.createQuery(
+                        "select s from Student s " +
+                                "join fetch s.courses " +
+                                "where s.id = :id",
+                        Student.class
                 )
                 .setParameter("id", id)
                 .getSingleResult();

@@ -43,8 +43,17 @@ public class MainProjectApplication {
 			//retrieveCourseAndReviews(instructorDao);
 			//deleteCourseAndReviews(instructorDao);
 			//createCourseAndStudents(instructorDao);
-			findCourseAndStudents(instructorDao);
+			//findCourseAndStudents(instructorDao);
+			findStudentAndCourses(instructorDao);
 		};
+	}
+
+	private void findStudentAndCourses(InstructorDao instructorDao) {
+		int id = 2;
+		Student student = instructorDao.findStudentAndCoursesById(id);
+
+		System.out.println("Student: " + student);
+		System.out.println("Courses: " + student.getCourses());
 	}
 
 	private void findCourseAndStudents(InstructorDao instructorDao) {

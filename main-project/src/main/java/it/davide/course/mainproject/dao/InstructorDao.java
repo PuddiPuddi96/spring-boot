@@ -1,5 +1,6 @@
 package it.davide.course.mainproject.dao;
 
+import it.davide.course.mainproject.entity.Student;
 import it.davide.course.mainproject.entity.instructor.Course;
 import it.davide.course.mainproject.entity.instructor.Instructor;
 import it.davide.course.mainproject.entity.instructor.InstructorDetail;
@@ -26,5 +27,7 @@ public interface InstructorDao {
     void save(Course course);
     Course findCourseAndReviewsById(int id);
     Course findCourseAndStudentsById(int id);
+
+    Student findStudentAndCoursesById(int id);
 
 }
