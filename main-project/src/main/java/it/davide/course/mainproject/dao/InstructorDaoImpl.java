@@ -105,4 +105,16 @@ public class InstructorDaoImpl implements InstructorDao {
     public void save(Course course) {
         em.persist(course);
     }
+
+    @Override
+    public Course findCourseAndReviewsById(int id) {
+        return em.createQuery(
+                "select c from Course c " +
+                        "join fetch c.reviews " +
+                        "where c.id = :id",
+                        Course.class
+                )
+                .setParameter("id", id)
+                .getSingleResult();
+    }
 }
