@@ -44,8 +44,23 @@ public class MainProjectApplication {
 			//deleteCourseAndReviews(instructorDao);
 			//createCourseAndStudents(instructorDao);
 			//findCourseAndStudents(instructorDao);
-			findStudentAndCourses(instructorDao);
+			//findStudentAndCourses(instructorDao);
+			addMoreCoursesForStudent(instructorDao);
 		};
+	}
+
+	private void addMoreCoursesForStudent(InstructorDao instructorDao) {
+		int id = 2;
+
+		Student student = instructorDao.findStudentAndCoursesById(id);
+
+		student.addCourse(
+				new Course("Il mio primo corso"));
+		student.addCourse(
+				new Course("Il mio incredibile corso")
+		);
+
+		instructorDao.update(student);
 	}
 
 	private void findStudentAndCourses(InstructorDao instructorDao) {

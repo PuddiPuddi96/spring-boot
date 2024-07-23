@@ -29,5 +29,6 @@ public interface InstructorDao {
     Course findCourseAndStudentsById(int id);
 
     Student findStudentAndCoursesById(int id);
+    void update(Student student);
 
 }

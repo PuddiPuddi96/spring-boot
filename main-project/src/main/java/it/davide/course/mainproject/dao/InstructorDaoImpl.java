@@ -142,4 +142,10 @@ public class InstructorDaoImpl implements InstructorDao {
                 .setParameter("id", id)
                 .getSingleResult();
     }
+
+    @Override
+    @Transactional
+    public void update(Student student) {
+        em.merge(student);
+    }
 }
