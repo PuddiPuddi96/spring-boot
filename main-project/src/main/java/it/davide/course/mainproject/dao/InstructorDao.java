@@ -30,5 +30,6 @@ public interface InstructorDao {
 
     Student findStudentAndCoursesById(int id);
     void update(Student student);
+    void deleteStudent(int id);
 
 }

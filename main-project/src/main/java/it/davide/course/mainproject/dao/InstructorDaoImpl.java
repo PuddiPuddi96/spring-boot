@@ -148,4 +148,10 @@ public class InstructorDaoImpl implements InstructorDao {
     public void update(Student student) {
         em.merge(student);
     }
+
+    @Override
+    @Transactional
+    public void deleteStudent(int id) {
+        em.remove(em.find(Student.class, id));
+    }
 }

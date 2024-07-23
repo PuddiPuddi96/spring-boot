@@ -45,8 +45,13 @@ public class MainProjectApplication {
 			//createCourseAndStudents(instructorDao);
 			//findCourseAndStudents(instructorDao);
 			//findStudentAndCourses(instructorDao);
-			addMoreCoursesForStudent(instructorDao);
+			//addMoreCoursesForStudent(instructorDao);
+			deleteStudent(instructorDao);
 		};
+	}
+
+	private void deleteStudent(InstructorDao instructorDao) {
+		instructorDao.deleteStudent(2);
 	}
 
 	private void addMoreCoursesForStudent(InstructorDao instructorDao) {
