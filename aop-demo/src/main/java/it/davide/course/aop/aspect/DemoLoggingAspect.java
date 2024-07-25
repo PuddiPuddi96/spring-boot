@@ -2,6 +2,7 @@ package it.davide.course.aop.aspect;
 
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
 @Aspect
@@ -37,8 +38,17 @@ public class DemoLoggingAspect {
 
     //Match any addAccount() method in any class (same signature)
     //@Before("execution(public void addAccount())")
-    @Before("execution(* it.davide.course.aop.dao.*.*(..))")
+
+    @Pointcut("execution(* it.davide.course.aop.dao.*.*(..))")
+    public void forDaoPackage() {}
+
+    @Before("forDaoPackage()")
     public void beforeAddAccount() {
         System.out.println("\n====>Before addAccount");
+    }
+
+    @Before("forDaoPackage()")
+    public void performApiAnalytics() {
+        System.out.println("\n====>Performing api analytics");
     }
 }
