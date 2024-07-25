@@ -15,6 +15,20 @@ public class DemoLoggingAspect {
     //Match methods starting with add in any class
     //@Before("execution(public void add*())")
 
+    //Match methods in any class starting with add and that have Account param
+    //@Before("execution(* add*(it.davide.course.aop.model.Account))")
+
+    //Match methods with Acocunt param and more param types (add .. -> any number of arguments)
+    //@Before("execution(* add*(it.davide.course.aop.model.Account, ..))")
+
+    //Match methods with any parameters
+    //Always narrow the pointcut expression to our package
+    //@Before("execution(* it.davide.course.aop..add*(..))")
+
+    //Match methods in a package
+    //First wildcard means any class, second one means any method
+    //@Before("execution(* it.davide.course.aop.dao.*.*(..))")
+
     //Use wildcards on return type
     //@Before("execution(public * add*())")
 
@@ -22,8 +36,9 @@ public class DemoLoggingAspect {
     //@Before("execution(* add*())")
 
     //Match any addAccount() method in any class (same signature)
-    @Before("execution(public void addAccount())")
+    //@Before("execution(public void addAccount())")
+    @Before("execution(* it.davide.course.aop.dao.*.*(..))")
     public void beforeAddAccount() {
-        System.out.println("\nBefore addAccount: Any addAccount() method in any class");
+        System.out.println("\n====>Before addAccount");
     }
 }

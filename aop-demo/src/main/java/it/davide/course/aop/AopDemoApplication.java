@@ -2,6 +2,7 @@ package it.davide.course.aop;
 
 import it.davide.course.aop.dao.AccountDao;
 import it.davide.course.aop.dao.MembershipDao;
+import it.davide.course.aop.model.Account;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -25,7 +26,9 @@ public class AopDemoApplication {
 
 	private void demoBeforeAdvice(AccountDao accountDao, MembershipDao membershipDao) {
 		accountDao.addAccount();
-		membershipDao.addAccount();
+		accountDao.addAccount(new Account("Davide", "Strianese"));
+		accountDao.doWork();
+		membershipDao.goToSleep();
 	}
 
 }

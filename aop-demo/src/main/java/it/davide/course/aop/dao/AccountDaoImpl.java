@@ -1,5 +1,6 @@
 package it.davide.course.aop.dao;
 
+import it.davide.course.aop.model.Account;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -7,6 +8,22 @@ public class AccountDaoImpl implements AccountDao{
 
     @Override
     public void addAccount() {
-        System.out.println(getClass() + ": Doing my db work: adding an account");
+        System.out.println(getClass() + ": Doing my db work: adding an account\n\n");
+    }
+
+    @Override
+    public void addAccount(Account account) {
+        System.out.println(getClass() + ": Doing my db work: adding an account: "+ account + "\n\n");
+    }
+
+    @Override
+    public void addAccount(Account account, Boolean isVip) {
+        System.out.println(getClass() + ": Doing my db work: adding an account vip: "+ account + " " + isVip + "\n\n");
+    }
+
+    @Override
+    public Boolean doWork() {
+        System.out.println(getClass() + ": doWork()\n\n");
+        return false;
     }
 }
