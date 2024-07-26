@@ -1,9 +1,13 @@
 package it.davide.course.aop.aspect;
 
+import it.davide.course.aop.model.Account;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
 
 @Order(1)
 @Aspect
@@ -42,8 +46,19 @@ public class DemoLoggingAspect {
 
     //Combine pointcut to match methods in DAO package and exclude getter/setter methods
     @Before("it.davide.course.aop.aspect.AopExpression.forDaoPackageNoGetterSetter()")
-    public void beforeAddAccount() {
+    public void beforeAddAccount(JoinPoint joinPoint) {
         System.out.println("\n====> @Before advice on method");
+
+        //Display the method signature
+        System.out.println("Method: " + joinPoint.getSignature());
+
+        //Display method arguments
+        Arrays.stream(joinPoint.getArgs()).toList().forEach(arg -> {
+            if(arg instanceof Account account) {
+                System.out.println("FirstName: " + account.getFirstName());
+                System.out.println("LastName: " + account.getLastName());
+            }
+        });
     }
 
 

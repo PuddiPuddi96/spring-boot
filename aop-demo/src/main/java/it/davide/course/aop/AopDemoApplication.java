@@ -30,14 +30,11 @@ public class AopDemoApplication {
 		accountDao.doWork();
 
 		//call the accountDao gettere/setter method
-		accountDao.setName("Luca");
-		accountDao.setServiceCode("001122");
-
-		accountDao.getName();
-		accountDao.getServiceCode();
-
-
-		//Call the membership business method
+//		accountDao.setName("Luca");
+//		accountDao.setServiceCode("001122");
+//
+//		accountDao.getName();
+//		accountDao.getServiceCode();
 	}
 
 }
