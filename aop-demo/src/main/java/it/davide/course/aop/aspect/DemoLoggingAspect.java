@@ -42,13 +42,23 @@ public class DemoLoggingAspect {
     @Pointcut("execution(* it.davide.course.aop.dao.*.*(..))")
     public void forDaoPackage() {}
 
-    @Before("forDaoPackage()")
-    public void beforeAddAccount() {
-        System.out.println("\n====>Before addAccount");
-    }
+    @Pointcut("execution(* it.davide.course.aop.dao.*.get*(..))")
+    public void getter() {}
+
+    @Pointcut("execution(* it.davide.course.aop.dao.*.set*(..))")
+    public void setter() {}
+
+    @Pointcut("forDaoPackage() && !(getter() || setter())")
+    public void forDaoPackageNoGetterSetter() {}
 
     @Before("forDaoPackage()")
+    public void beforeAddAccount() {
+        System.out.println("\n====> @Before advice on method");
+    }
+
+    //Combine pointcut to match methods in DAO package and exclude getter/setter methods
+    @Before("forDaoPackageNoGetterSetter()")
     public void performApiAnalytics() {
-        System.out.println("\n====>Performing api analytics");
+        System.out.println("\n====> Performing api analytics");
     }
 }

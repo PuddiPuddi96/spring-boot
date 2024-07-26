@@ -6,6 +6,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class AccountDaoImpl implements AccountDao{
 
+    private String name;
+    private String serviceCode;
+
     @Override
     public void addAccount() {
         System.out.println(getClass() + ": Doing my db work: adding an account\n\n");
@@ -25,5 +28,25 @@ public class AccountDaoImpl implements AccountDao{
     public Boolean doWork() {
         System.out.println(getClass() + ": doWork()\n\n");
         return false;
+    }
+
+    public String getName() {
+        System.out.println(getClass() + ": getName()\n\n");
+        return name;
+    }
+
+    public String getServiceCode() {
+        System.out.println(getClass() + ": getServiceCOde()\n\n");
+        return serviceCode;
+    }
+
+    public void setName(String name) {
+        System.out.println(getClass() + ": setName()\n\n");
+        this.name = name;
+    }
+
+    public void setServiceCode(String serviceCode) {
+        System.out.println(getClass() + ": setServiceCode()\n\n");
+        this.serviceCode = serviceCode;
     }
 }

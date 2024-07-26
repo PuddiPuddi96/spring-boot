@@ -25,10 +25,19 @@ public class AopDemoApplication {
 	}
 
 	private void demoBeforeAdvice(AccountDao accountDao, MembershipDao membershipDao) {
-		accountDao.addAccount();
+		//Call the business method
 		accountDao.addAccount(new Account("Davide", "Strianese"));
 		accountDao.doWork();
-		membershipDao.goToSleep();
+
+		//call the accountDao gettere/setter method
+		accountDao.setName("Luca");
+		accountDao.setServiceCode("001122");
+
+		accountDao.getName();
+		accountDao.getServiceCode();
+
+
+		//Call the membership business method
 	}
 
 }
