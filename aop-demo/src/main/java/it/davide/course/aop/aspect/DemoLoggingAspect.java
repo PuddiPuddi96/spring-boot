@@ -2,9 +2,10 @@ package it.davide.course.aop.aspect;
 
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+@Order(1)
 @Aspect
 @Component
 public class DemoLoggingAspect {
@@ -39,26 +40,11 @@ public class DemoLoggingAspect {
     //Match any addAccount() method in any class (same signature)
     //@Before("execution(public void addAccount())")
 
-    @Pointcut("execution(* it.davide.course.aop.dao.*.*(..))")
-    public void forDaoPackage() {}
-
-    @Pointcut("execution(* it.davide.course.aop.dao.*.get*(..))")
-    public void getter() {}
-
-    @Pointcut("execution(* it.davide.course.aop.dao.*.set*(..))")
-    public void setter() {}
-
-    @Pointcut("forDaoPackage() && !(getter() || setter())")
-    public void forDaoPackageNoGetterSetter() {}
-
-    @Before("forDaoPackage()")
+    //Combine pointcut to match methods in DAO package and exclude getter/setter methods
+    @Before("it.davide.course.aop.aspect.AopExpression.forDaoPackageNoGetterSetter()")
     public void beforeAddAccount() {
         System.out.println("\n====> @Before advice on method");
     }
 
-    //Combine pointcut to match methods in DAO package and exclude getter/setter methods
-    @Before("forDaoPackageNoGetterSetter()")
-    public void performApiAnalytics() {
-        System.out.println("\n====> Performing api analytics");
-    }
+
 }
