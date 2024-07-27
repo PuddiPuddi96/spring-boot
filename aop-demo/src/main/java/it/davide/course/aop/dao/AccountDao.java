@@ -2,6 +2,8 @@ package it.davide.course.aop.dao;
 
 import it.davide.course.aop.model.Account;
 
+import java.util.List;
+
 public interface AccountDao {
 
     void addAccount();
@@ -12,4 +14,5 @@ public interface AccountDao {
     String getServiceCode();
     void setName(String name);
     void setServiceCode(String serviceCode);
+    List<Account> findAccounts();
 }

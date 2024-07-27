@@ -2,12 +2,14 @@ package it.davide.course.aop.aspect;
 
 import it.davide.course.aop.model.Account;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Order(1)
 @Aspect
@@ -59,6 +61,16 @@ public class DemoLoggingAspect {
                 System.out.println("LastName: " + account.getLastName());
             }
         });
+    }
+
+    @AfterReturning(
+            pointcut = "execution(* it.davide.course.aop.dao.AccountDao.findAccounts(..))",
+            returning = "result")
+    public void afterReturningFindAccountsAdvice(
+            JoinPoint joinPoint, List<Account> result) {
+
+        System.out.println("\n====> Executing @AfterReturning on method: " + joinPoint.getSignature().toShortString());
+        System.out.println("\n====> Result: " + result);
     }
 
 

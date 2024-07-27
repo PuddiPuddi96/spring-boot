@@ -3,6 +3,8 @@ package it.davide.course.aop.dao;
 import it.davide.course.aop.model.Account;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class AccountDaoImpl implements AccountDao{
 
@@ -48,5 +50,14 @@ public class AccountDaoImpl implements AccountDao{
     public void setServiceCode(String serviceCode) {
         System.out.println(getClass() + ": setServiceCode()\n\n");
         this.serviceCode = serviceCode;
+    }
+
+    @Override
+    public List<Account> findAccounts() {
+        return List.of(
+                new Account("Davide", "Strianese"),
+                new Account("Luca", "Strianese"),
+                new Account("Gerardina", "Cortese")
+        );
     }
 }
