@@ -3,6 +3,7 @@ package it.davide.course.aop.aspect;
 import it.davide.course.aop.model.Account;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.core.annotation.Order;
@@ -64,14 +65,17 @@ public class DemoLoggingAspect {
     }
 
     @AfterReturning(
-            pointcut = "execution(* it.davide.course.aop.dao.AccountDao.findAccounts(..))",
+            pointcut = "it.davide.course.aop.aspect.AopExpression.forFindAccounts()",
             returning = "result")
     public void afterReturningFindAccountsAdvice(
             JoinPoint joinPoint, List<Account> result) {
 
         System.out.println("\n====> Executing @AfterReturning on method: " + joinPoint.getSignature().toShortString());
         System.out.println("\n====> Result: " + result);
-    }
 
+        result.forEach(account ->
+                account.setLastName(
+                        account.getLastName().toUpperCase()));
+    }
 
 }
