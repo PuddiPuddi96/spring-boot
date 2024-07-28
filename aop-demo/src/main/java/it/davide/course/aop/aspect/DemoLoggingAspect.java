@@ -114,7 +114,10 @@ public class DemoLoggingAspect {
             result = proceedingJoinPoint.proceed();
         }catch (Exception e) {
             System.out.println("\n====> Exception: " + e.getMessage());
-            result = "Major accident! But no worries, your private AOP helicopter is on the way!";
+            //result = "Major accident! But no worries, your private AOP helicopter is on the way!";
+
+            //Rethrow exception
+            throw e;
         }
 
         //get end timestamp

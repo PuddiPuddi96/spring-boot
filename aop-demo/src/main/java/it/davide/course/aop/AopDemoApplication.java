@@ -29,8 +29,15 @@ public class AopDemoApplication {
 			//demoAfterThrowingAdvice(accountDao);
 			//demoAfterAdvice(accountDao);
 			//demoAroundAdvice(trafficFortuneService);
-			demoAroundAdviceHandleException(trafficFortuneService);
+			//demoAroundAdviceHandleException(trafficFortuneService);
+			demoAroundAdviceRethrowException(trafficFortuneService);
 		};
+	}
+
+	private void demoAroundAdviceRethrowException(TrafficFortuneService trafficFortuneService) {
+		System.out.println("\n\nMain program: demoAroundAdviceRethrowException");
+		System.out.println("Calling getFortune(	)");
+		System.out.println("My fortune is: " + trafficFortuneService.getFortune(true));
 	}
 
 	private void demoAroundAdviceHandleException(TrafficFortuneService trafficFortuneService) {
