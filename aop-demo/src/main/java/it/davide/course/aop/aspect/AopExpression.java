@@ -20,4 +20,7 @@ public class AopExpression {
 
     @Pointcut("execution(* it.davide.course.aop.dao.AccountDao.findAccounts(..))")
     public void forFindAccounts() {}
+
+    @Pointcut("execution(* it.davide.course.aop.service.*.getFortune(..))")
+    public void forGetFortune() {}
 }

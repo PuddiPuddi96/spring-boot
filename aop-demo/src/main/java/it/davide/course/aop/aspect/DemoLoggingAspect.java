@@ -2,6 +2,7 @@ package it.davide.course.aop.aspect;
 
 import it.davide.course.aop.model.Account;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -93,6 +94,30 @@ public class DemoLoggingAspect {
             JoinPoint joinPoint) {
         //print out which method we are advising on
         System.out.println("\n====> Executing @After (finally) on method: " + joinPoint.getSignature().toShortString());
+    }
+
+    @Around("it.davide.course.aop.aspect.AopExpression.forGetFortune()")
+    public Object aroundGetFortune(
+            ProceedingJoinPoint proceedingJoinPoint
+    ) throws Throwable {
+        //Print out method we are advising on
+        String method = proceedingJoinPoint.getSignature().toShortString();
+        System.out.println("\n====> Executing @Around on method: " + method);
+
+        //get begin timestamp
+        long begin = System.currentTimeMillis();
+
+        //execute the method
+        Object result = proceedingJoinPoint.proceed();
+
+        //get end timestamp
+        long end = System.currentTimeMillis();
+
+        //compute duration and print out it
+        long duration = end - begin;
+        System.out.println("\n====> duration: " + duration/1000.0 + " seconds");
+
+        return result;
     }
 
 }
