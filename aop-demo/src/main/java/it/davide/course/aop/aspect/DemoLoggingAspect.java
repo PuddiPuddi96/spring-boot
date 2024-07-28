@@ -2,10 +2,7 @@ package it.davide.course.aop.aspect;
 
 import it.davide.course.aop.model.Account;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.AfterThrowing;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.*;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -78,17 +75,24 @@ public class DemoLoggingAspect {
 //                        account.getLastName().toUpperCase()));
 //    }
 
-    @AfterThrowing(
-            pointcut = "it.davide.course.aop.aspect.AopExpression.forFindAccounts()",
-            throwing = "exception")
-    public void afterThrowingFindAccountsAdvice(
-            JoinPoint joinPoint,
-            Throwable exception){
-        //print out which method we are advising on
-        System.out.println("\n====> Executing @AfterThrowing on method: " + joinPoint.getSignature().toShortString());
+//    @AfterThrowing(
+//            pointcut = "it.davide.course.aop.aspect.AopExpression.forFindAccounts()",
+//            throwing = "exception")
+//    public void afterThrowingFindAccountsAdvice(
+//            JoinPoint joinPoint,
+//            Throwable exception){
+//        //print out which method we are advising on
+//        System.out.println("\n====> Executing @AfterThrowing on method: " + joinPoint.getSignature().toShortString());
+//
+//        //print out the exception
+//        System.out.println("\n====> The exception is: " + exception);
+//    }
 
-        //print out the exception
-        System.out.println("\n====> The exception is: " + exception);
+    @After("it.davide.course.aop.aspect.AopExpression.forFindAccounts()")
+    public void afterFinallyFindAccountsAfvice(
+            JoinPoint joinPoint) {
+        //print out which method we are advising on
+        System.out.println("\n====> Executing @After (finally) on method: " + joinPoint.getSignature().toShortString());
     }
 
 }

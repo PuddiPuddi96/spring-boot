@@ -24,8 +24,24 @@ public class AopDemoApplication {
 		return runner -> {
 			//demoBeforeAdvice(accountDao, membershipDao);
 			//demoAfterReturningAdvice(accountDao);
-			demoAfterThrowingAdvice(accountDao);
+			//demoAfterThrowingAdvice(accountDao);
+			demoAfterAdvice(accountDao);
 		};
+	}
+
+	private void demoAfterAdvice(AccountDao accountDao) {
+		List<Account> accounts = null;
+
+		try {
+			boolean tripWire = false;
+			accounts = accountDao.findAccounts(tripWire);
+		}catch (Exception e) {
+			System.out.println("\n\nMain program: caught exception: " + e.getMessage());
+		}
+
+		System.out.println("\n\nMain program: demoAfterThrowingAdvice");
+		System.out.println("----");
+		System.out.println(accounts);
 	}
 
 	private void demoAfterThrowingAdvice(AccountDao accountDao) {
