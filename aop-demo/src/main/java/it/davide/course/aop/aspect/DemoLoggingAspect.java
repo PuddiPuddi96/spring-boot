@@ -48,34 +48,47 @@ public class DemoLoggingAspect {
     //@Before("execution(public void addAccount())")
 
     //Combine pointcut to match methods in DAO package and exclude getter/setter methods
-    @Before("it.davide.course.aop.aspect.AopExpression.forDaoPackageNoGetterSetter()")
-    public void beforeAddAccount(JoinPoint joinPoint) {
-        System.out.println("\n====> @Before advice on method");
+//    @Before("it.davide.course.aop.aspect.AopExpression.forDaoPackageNoGetterSetter()")
+//    public void beforeAddAccount(JoinPoint joinPoint) {
+//        System.out.println("\n====> @Before advice on method");
+//
+//        //Display the method signature
+//        System.out.println("Method: " + joinPoint.getSignature());
+//
+//        //Display method arguments
+//        Arrays.stream(joinPoint.getArgs()).toList().forEach(arg -> {
+//            if(arg instanceof Account account) {
+//                System.out.println("FirstName: " + account.getFirstName());
+//                System.out.println("LastName: " + account.getLastName());
+//            }
+//        });
+//    }
+//
+//    @AfterReturning(
+//            pointcut = "it.davide.course.aop.aspect.AopExpression.forFindAccounts()",
+//            returning = "result")
+//    public void afterReturningFindAccountsAdvice(
+//            JoinPoint joinPoint, List<Account> result) {
+//
+//        System.out.println("\n====> Executing @AfterReturning on method: " + joinPoint.getSignature().toShortString());
+//        System.out.println("\n====> Result: " + result);
+//
+//        result.forEach(account ->
+//                account.setLastName(
+//                        account.getLastName().toUpperCase()));
+//    }
 
-        //Display the method signature
-        System.out.println("Method: " + joinPoint.getSignature());
-
-        //Display method arguments
-        Arrays.stream(joinPoint.getArgs()).toList().forEach(arg -> {
-            if(arg instanceof Account account) {
-                System.out.println("FirstName: " + account.getFirstName());
-                System.out.println("LastName: " + account.getLastName());
-            }
-        });
-    }
-
-    @AfterReturning(
+    @AfterThrowing(
             pointcut = "it.davide.course.aop.aspect.AopExpression.forFindAccounts()",
-            returning = "result")
-    public void afterReturningFindAccountsAdvice(
-            JoinPoint joinPoint, List<Account> result) {
+            throwing = "exception")
+    public void afterThrowingFindAccountsAdvice(
+            JoinPoint joinPoint,
+            Throwable exception){
+        //print out which method we are advising on
+        System.out.println("\n====> Executing @AfterThrowing on method: " + joinPoint.getSignature().toShortString());
 
-        System.out.println("\n====> Executing @AfterReturning on method: " + joinPoint.getSignature().toShortString());
-        System.out.println("\n====> Result: " + result);
-
-        result.forEach(account ->
-                account.setLastName(
-                        account.getLastName().toUpperCase()));
+        //print out the exception
+        System.out.println("\n====> The exception is: " + exception);
     }
 
 }

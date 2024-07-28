@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class CloudLogAsyncAspect {
 
-    @Before("it.davide.course.aop.aspect.AopExpression.forDaoPackageNoGetterSetter()")
-    public void logToCloudAsync() {
-        System.out.println("\n====> Logging to Cloud in async function ");
-    }
+//    @Before("it.davide.course.aop.aspect.AopExpression.forDaoPackageNoGetterSetter()")
+//    public void logToCloudAsync() {
+//        System.out.println("\n====> Logging to Cloud in async function ");
+//    }
 }
