@@ -2,6 +2,7 @@ package it.davide.course.employeeaop.aspect;
 
 import it.davide.course.employeeaop.entity.Employee;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
@@ -22,14 +23,33 @@ public class DemoLoggingAspect {
         logger.log(Level.INFO, "=====>> in @Before: calling method {0}", method);
 
         //Display method arguments
-        Arrays.stream(joinPoint.getArgs()).toList().forEach(arg -> {
-            logger.log(Level.INFO, "=====>> in @Before: arg {0}", arg);
-//            if(arg instanceof Employee employee) {
-//                logger.log(Level.INFO, "=====>> in @Before: Employee {0}", employee);
-//                logger.log(Level.INFO, "=====>> in @Before: Employee first name {0}", employee.getFirstName());
-//                logger.log(Level.INFO, "=====>> in @Before: Employee last name {0}", employee.getLastName());
-//            }
-        });
+        Arrays.stream(
+                joinPoint.getArgs())
+                .toList()
+                .forEach(arg ->
+                        logger.log(Level.INFO, "=====>> in @Before: arg {0}", arg));
+    }
+
+    @AfterReturning(
+            pointcut = "it.davide.course.employeeaop.aspect.AopExpression.forAppFlow()",
+            returning = "result")
+    public void afterReturning(
+            JoinPoint joinPoint,
+            Object result) {
+
+        //Display method we are returning from
+        logger.log(
+                Level.INFO,
+                "=====>> in @AfterReturning: from method {0}",
+                joinPoint.getSignature().toShortString());
+
+
+        //Display data returned
+        logger.log(
+                Level.INFO,
+                "=====>> in @AfterReturning: result {0}",
+                result);
+
     }
 
 }
