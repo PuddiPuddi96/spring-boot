@@ -40,23 +40,6 @@ public class DemoSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        http.authorizeHttpRequests(configurer ->
-//                configurer
-//                        .requestMatchers(HttpMethod.GET, BASE_URL).hasRole(EMPLOYEE)
-//                        .requestMatchers(HttpMethod.GET, BASE_URL + "/**").hasRole(EMPLOYEE)
-//                        .requestMatchers(HttpMethod.POST, BASE_URL).hasRole(MANAGER)
-//                        .requestMatchers(HttpMethod.PUT, BASE_URL + "/**").hasRole(MANAGER)
-//                        .requestMatchers(HttpMethod.DELETE, BASE_URL + "/**").hasRole(ADMIN)
-//        );
-//
-//        //Basic authentication
-//        http.httpBasic(Customizer.withDefaults());
-//
-//        //Disable CSRF
-//        http.csrf(AbstractHttpConfigurer::disable);
-//
-//        return http.build();
-
         http.authorizeHttpRequests(configurer ->
                 configurer
                         .requestMatchers(HttpMethod.GET, SECURITY_BASE_URL).hasRole(EMPLOYEE)
