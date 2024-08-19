@@ -20,11 +20,11 @@ public interface InstructorDao {
     List<Course> findCoursesByInstructorId(int instructorId);
     Instructor findInstructorByJoinFetch(int id);
 
+    void save(Course course);
     Course findCourseById(int id);
     void updateCourse(Course course);
     void deleteCourseById(int id);
 
-    void save(Course course);
     Course findCourseAndReviewsById(int id);
     Course findCourseAndStudentsById(int id);
 
