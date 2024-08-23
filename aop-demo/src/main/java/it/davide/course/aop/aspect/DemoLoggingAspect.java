@@ -100,14 +100,10 @@ public class DemoLoggingAspect {
     public Object aroundGetFortune(
             ProceedingJoinPoint proceedingJoinPoint
     ) throws Throwable {
-        //Print out method we are advising on
         String method = proceedingJoinPoint.getSignature().toShortString();
         System.out.println("\n====> Executing @Around on method: " + method);
 
-        //get begin timestamp
         long begin = System.currentTimeMillis();
-
-        //execute the method
         Object result = null;
 
         try {
@@ -116,15 +112,12 @@ public class DemoLoggingAspect {
             System.out.println("\n====> Exception: " + e.getMessage());
             //result = "Major accident! But no worries, your private AOP helicopter is on the way!";
 
-            //Rethrow exception
             throw e;
         }
 
-        //get end timestamp
         long end = System.currentTimeMillis();
-
-        //compute duration and print out it
         long duration = end - begin;
+        
         System.out.println("\n====> duration: " + duration/1000.0 + " seconds");
 
         return result;
