@@ -1,0 +1,47 @@
+services:
+  cine-mille-service:
+    container_name: cine-mille-service
+    build:
+      context: ./dockerfile-service
+      dockerfile: Dockerfile
+    ports:
+      - "${TOMCAT_PORT}:8080"
+      - "${TOMCAT_PORT_DEBUG}:8000"
+    environment:
+      TZ: Europe/Rome
+      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,address=*:8000,server=y,suspend=n
+    networks:
+      - cine-mille
+    volumes:
+      #- ./jarFile/cine-mille.jar:/app/app.jar
+      - ./logs/cine-mille/:/logs
+  database:
+    image: postgis/postgis:12-3.1-alpine
+    container_name: cine-mille-database
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - cine-mille-pgsqldb:/var/lib/postgresql/data
+      - ./database/init-database.sh:/docker-entrypoint-initdb.d/init-database.sh
+      - ./database/init_sql:/init_sql
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    networks:
+      - cine-mille
+  pgadmin:
+    image: dpage/pgadmin4:6.8
+    container_name: cine-mille-pgadmin
+    ports:
+      - "${PGADMIN_PORT}:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+    volumes:
+      - ./pgadmin/servers.json:/pgadmin4/servers.json
+    networks:
+      - cine-mille
+networks:
+  cine-mille:
+    driver: bridge
+volumes:
+  cine-mille-pgsqldb:
