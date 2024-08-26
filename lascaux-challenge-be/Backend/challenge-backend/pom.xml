@@ -13,6 +13,7 @@
 	<groupId>it.davide.lascaux</groupId>
 	<artifactId>challenge-cine-mille</artifactId>
 	<version>1.0.0</version>
+	<packaging>jar</packaging>
 	<name>challenge-cine-mille</name>
 	<description>Project for backend challenge</description>
 
@@ -58,11 +59,15 @@
 	</dependencies>
 
 	<build>
+		<finalName>cine_mille</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<outputDirectory>
+						../../Docker/jarFile
+					</outputDirectory>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
