@@ -1,4 +1,4 @@
-package it.davide.lascaux.challenge.backend;
+package it.davide.lascaux.challenge.cinemille;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
