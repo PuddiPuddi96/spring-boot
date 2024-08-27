@@ -2,16 +2,12 @@ package it.davide.lascaux.challenge.cinemille.model.common;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
-@Getter
-@Setter
 public class Result<T> implements Serializable {
 
     @Serial
