@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "map_film_room")
 public class MapFilmRoom {
 
@@ -37,4 +36,12 @@ public class MapFilmRoom {
 
     @Column(name = "programming_end_date")
     private LocalDateTime programmingEndDate;
+
+    public MapFilmRoom(Room room, Film film, boolean isInProgramming, LocalDateTime programmingStartDate, LocalDateTime programmingEndDate) {
+        this.room = room;
+        this.film = film;
+        this.isInProgramming = isInProgramming;
+        this.programmingStartDate = programmingStartDate;
+        this.programmingEndDate = programmingEndDate;
+    }
 }

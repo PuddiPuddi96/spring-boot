@@ -12,12 +12,12 @@ import java.util.Set;
 @Setter
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "film")
 public class Film {
 
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "title")
@@ -32,4 +32,9 @@ public class Film {
     @OneToMany(mappedBy = "film", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<MapFilmRoom> mapFilmRooms;
 
+    public Film(String title, String genre, int duration) {
+        this.title = title;
+        this.genre = genre;
+        this.duration = duration;
+    }
 }
