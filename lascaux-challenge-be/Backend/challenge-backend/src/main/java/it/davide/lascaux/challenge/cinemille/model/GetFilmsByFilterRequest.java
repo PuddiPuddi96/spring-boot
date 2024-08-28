@@ -7,20 +7,22 @@ import lombok.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
-@ToString
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 public class GetFilmsByFilterRequest implements Serializable {
 
-    @Schema(name = "", description = "", requiredMode = Schema.RequiredMode.REQUIRED)
-    private Boolean isInProgramming = true;
-
-    @Schema(name = "", description = "", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(
+            name = "startDate",
+            description = "This field indicating the programming start date for which to filter",
+            requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private LocalDateTime startDate;
 
-    @Schema(name = "", description = "", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(
+            name = "endDate",
+            description = "This field indicating the programming end date for which to filter",
+            requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private LocalDateTime endDate;
+
 }

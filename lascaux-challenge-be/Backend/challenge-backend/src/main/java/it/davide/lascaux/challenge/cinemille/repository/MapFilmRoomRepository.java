@@ -16,12 +16,11 @@ public interface MapFilmRoomRepository extends JpaRepository<MapFilmRoom, Long> 
 
     @Query("select mfr1_0 " +
             "from MapFilmRoom mfr1_0 " +
-            "where mfr1_0.isInProgramming = :isInProgramming and " +
+            "where mfr1_0.isInProgramming = true and " +
                 "(mfr1_0.programmingStartDate>= :startDate or mfr1_0.programmingEndDate<= :endDate)")
     List<MapFilmRoom> findFilmByFilter(
             @Param("startDate") LocalDateTime startDate,
-            @Param("endDate") LocalDateTime endDate,
-            @Param("isInProgramming") boolean isInProgramming
+            @Param("endDate") LocalDateTime endDate
     );
 
     @Query("select mfr1_0 from MapFilmRoom mfr1_0")
