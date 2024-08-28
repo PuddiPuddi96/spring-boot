@@ -3,6 +3,8 @@ package it.davide.lascaux.challenge.cinemille.service;
 import it.davide.lascaux.challenge.cinemille.entity.Film;
 import it.davide.lascaux.challenge.cinemille.entity.MapFilmRoom;
 import it.davide.lascaux.challenge.cinemille.entity.Room;
+import it.davide.lascaux.challenge.cinemille.exception.ExcelUtilityException;
+import it.davide.lascaux.challenge.cinemille.exception.RoomException;
 import it.davide.lascaux.challenge.cinemille.model.FilmFromExcel;
 import it.davide.lascaux.challenge.cinemille.model.FilmsResponse;
 import it.davide.lascaux.challenge.cinemille.model.GetFilmsByFilterRequest;
@@ -64,34 +66,49 @@ public class CineMilleServiceImpl implements CineMilleService {
         return convertToResponse(mapFilmRoomRepository.getMapFilmRooms(PageRequest.of(pageNumber, pageSize)));
     }
 
-    @Transactional
     @Override
+    @Transactional
     public void uploadFilmsFromExcel(MultipartFile file) {
         try{
             List<FilmFromExcel> filmsFromExcel = ExcelUtility.getFilmsFromExcel(file.getInputStream());
 
-            if(!filmsFromExcel.isEmpty()){
-                filmsFromExcel.forEach(filmFromExcel -> {
-                    Film filmSaved = filmRepository.save(new Film(
-                            filmFromExcel.getFilmTitle(),
-                            filmFromExcel.getFilmGenre(),
-                            filmFromExcel.getFilmDuration()
-                    ));
-
-                    Optional<Room> room = roomRepository.findById(filmFromExcel.getRoomNumber());
-                    room.ifPresent(value -> mapFilmRoomRepository.save(new MapFilmRoom(
-                            value,
-                            filmSaved,
-                            true,
-                            filmFromExcel.getProgrammingStartDate(),
-                            filmFromExcel.getProgrammingEndDate()
-                    )));
-                });
+            if(filmsFromExcel.isEmpty()){
+                return;
             }
+            filmsFromExcel.forEach(filmFromExcel -> {
+                Film filmSaved = saveFilm(filmFromExcel);
+                Room room = getRoom(filmFromExcel.getRoomNumber());
+                saveMapFilmRoom(filmSaved, room, filmFromExcel);
+            });
 
-        }catch (IOException ex){
-            throw new RuntimeException("Excel data is failed to store");
+        }catch (IOException e){
+            throw new ExcelUtilityException("Excel data is failed to store", e);
         }
+    }
+
+    private Film saveFilm(FilmFromExcel filmFromExcel){
+        return filmRepository.save(new Film(
+                filmFromExcel.getFilmTitle(),
+                filmFromExcel.getFilmGenre(),
+                filmFromExcel.getFilmDuration()
+        ));
+    }
+
+    private void saveMapFilmRoom(Film film, Room room, FilmFromExcel filmFromExcel){
+        mapFilmRoomRepository.save(new MapFilmRoom(
+                room,
+                film,
+                Boolean.TRUE,
+                filmFromExcel.getProgrammingStartDate(),
+                filmFromExcel.getProgrammingEndDate()
+        ));
+    }
+
+    private Room getRoom(int roomNumber){
+        Optional<Room> room = roomRepository.findById(roomNumber);
+        if(room.isEmpty())
+            throw new RoomException("Room not found");
+        return room.get();
     }
 
     private Map<String, Object> convertToResponse(final Page<MapFilmRoom> filmRoomPage) {

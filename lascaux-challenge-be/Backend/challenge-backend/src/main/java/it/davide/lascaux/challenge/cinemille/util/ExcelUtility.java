@@ -1,5 +1,6 @@
 package it.davide.lascaux.challenge.cinemille.util;
 
+import it.davide.lascaux.challenge.cinemille.exception.ExcelUtilityException;
 import it.davide.lascaux.challenge.cinemille.model.FilmFromExcel;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -19,6 +20,10 @@ public class ExcelUtility {
     private static final String TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
     private static final String SHEET = "films";
 
+    private ExcelUtility() {
+        throw new IllegalStateException("Utility class");
+    }
+
     public static boolean hasExcelFormat(MultipartFile file) {
         return TYPE.equals(file.getContentType());
     }
@@ -36,37 +41,26 @@ public class ExcelUtility {
             boolean isLastRow = false;
             while (rows.hasNext() && !isLastRow) {
                 Row currentRow = rows.next();
-                // skip header
-                if (rowNumber == 0) {
+                //skip header
+                if(rowNumber == 0) {
                     rowNumber++;
                     continue;
                 }
+
                 Iterator<Cell> cellsInRow = currentRow.iterator();
                 FilmFromExcel film = new FilmFromExcel();
                 int cellIdx = 0;
-                while (cellsInRow.hasNext()) {
+                boolean isLastColumn = false;
+                while (cellsInRow.hasNext() && !isLastColumn) {
                     Cell currentCell = cellsInRow.next();
                     switch (cellIdx) {
-                        case 0:
-                            film.setFilmTitle(currentCell.getStringCellValue());
-                            break;
-                        case 1:
-                            film.setFilmDuration((int) currentCell.getNumericCellValue());
-                            break;
-                        case 2:
-                            film.setFilmGenre(currentCell.getStringCellValue());
-                            break;
-                        case 3:
-                            film.setRoomNumber((int) currentCell.getNumericCellValue());
-                            break;
-                        case 4:
-                            film.setProgrammingStartDate(currentCell.getLocalDateTimeCellValue());
-                            break;
-                        case 5:
-                            film.setProgrammingEndDate(currentCell.getLocalDateTimeCellValue());
-                            break;
-                        default:
-                            break;
+                        case 0 -> film.setFilmTitle(currentCell.getStringCellValue());
+                        case 1 -> film.setFilmDuration((int) currentCell.getNumericCellValue());
+                        case 2 -> film.setFilmGenre(currentCell.getStringCellValue());
+                        case 3 -> film.setRoomNumber((int) currentCell.getNumericCellValue());
+                        case 4 -> film.setProgrammingStartDate(currentCell.getLocalDateTimeCellValue());
+                        case 5 -> film.setProgrammingEndDate(currentCell.getLocalDateTimeCellValue());
+                        default -> isLastColumn = true;
                     }
                     cellIdx++;
                 }
@@ -78,7 +72,7 @@ public class ExcelUtility {
             workbook.close();
             return films;
         } catch (IOException e) {
-            throw new RuntimeException("fail to parse Excel file");
+            throw new ExcelUtilityException("Fail to parse Excel file", e);
         }
     }
 

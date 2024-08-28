@@ -1,8 +1,6 @@
 package it.davide.lascaux.challenge.cinemille.rest;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import it.davide.lascaux.challenge.cinemille.model.FilmsResponse;
 import it.davide.lascaux.challenge.cinemille.model.GetFilmsByFilterRequest;
 import it.davide.lascaux.challenge.cinemille.model.common.Result;
@@ -28,12 +26,8 @@ public class CineMilleController {
         this.cineMilleService = cineMilleService;
     }
 
-    @Operation(method = "POST", summary = "", description = "")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = ""),
-            @ApiResponse(responseCode = "404", description = "")
-    })
     @PostMapping("/get-films-by-filter")
+    @Operation(method = "POST", summary = "", description = "")
     public ResponseEntity<Result<List<FilmsResponse>>> getFilmsByFilter(
             @RequestBody GetFilmsByFilterRequest request) {
 
@@ -47,8 +41,11 @@ public class CineMilleController {
         return ResponseEntity.status(HttpStatus.OK.value()).body(response);
     }
 
-    @PostMapping("/upload")
-    public ResponseEntity<Result<String>> uploadFile(
+    @PostMapping("/upload-films")
+    @Operation(
+            method = "POST",
+            description = "This method enables the upload of scheduled films contained in an excel file")
+    public ResponseEntity<Result<String>> uploadFilmsFromExcel(
             @RequestParam("file") MultipartFile file) {
 
         Result<String> response = new Result<>();
@@ -60,7 +57,7 @@ public class CineMilleController {
                 response.success(HttpStatus.OK.value());
 
                 return ResponseEntity.status(HttpStatus.OK).body(response);
-            } catch (Exception exp) {
+            } catch (Exception e) {
                 response.error(
                         "The Excel file is not upload: " + file.getOriginalFilename() + "!",
                         HttpStatus.EXPECTATION_FAILED.value()
@@ -68,14 +65,17 @@ public class CineMilleController {
                 return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(response);
             }
         }
+
         response.error(
                 "Please upload an excel file!",
                 HttpStatus.BAD_REQUEST.value()
         );
+
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
     @GetMapping("/get-films-history")
+    @Operation(method = "GET", summary = "", description = "")
     public ResponseEntity<Result<Map<String, Object>>> getFilmsHistory(
             @RequestParam(defaultValue = "0") final Integer pageNumber,
             @RequestParam(defaultValue = "5") final Integer size
