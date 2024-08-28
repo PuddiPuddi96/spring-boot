@@ -14,8 +14,7 @@ import org.springframework.context.annotation.Configuration;
                         name = "Davide Benedetto Strianese",
                         email = "d.b.strianese96@hotmail.com"
                 ),
-                version = "1.0.0",
-                summary = "To do a Summary"
+                version = "1.0.0"
         )
 )
 public class SwaggerConfig {
