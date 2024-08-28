@@ -6,7 +6,7 @@ import it.davide.lascaux.challenge.cinemille.entity.Room;
 import it.davide.lascaux.challenge.cinemille.exception.ExcelUtilityException;
 import it.davide.lascaux.challenge.cinemille.exception.RoomException;
 import it.davide.lascaux.challenge.cinemille.model.FilmFromExcel;
-import it.davide.lascaux.challenge.cinemille.model.FilmsResponse;
+import it.davide.lascaux.challenge.cinemille.model.FilmResponse;
 import it.davide.lascaux.challenge.cinemille.model.GetFilmsByFilterRequest;
 import it.davide.lascaux.challenge.cinemille.repository.FilmRepository;
 import it.davide.lascaux.challenge.cinemille.repository.MapFilmRoomRepository;
@@ -15,6 +15,7 @@ import it.davide.lascaux.challenge.cinemille.util.ExcelUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,33 +38,32 @@ public class CineMilleServiceImpl implements CineMilleService {
     }
 
     @Override
-    public List<FilmsResponse> getFilmsByFilter(GetFilmsByFilterRequest request) {
+    public List<FilmResponse> getFilmsByFilter(GetFilmsByFilterRequest request) {
         List<MapFilmRoom> result = mapFilmRoomRepository
                 .findFilmByFilter(
                         request.getStartDate(),
-                        request.getEndDate(),
-                        request.getIsInProgramming()
+                        request.getEndDate()
                 );
 
-        List<FilmsResponse> filmsResponses = new ArrayList<>();
-        if(!result.isEmpty()){
-            result.forEach(filmRoom ->
-                    filmsResponses.add(
-                            new FilmsResponse(
-                                filmRoom.getFilm().getTitle(),
-                                filmRoom.getFilm().getDuration(),
-                                filmRoom.getRoom().getNumber(),
-                                filmRoom.getProgrammingStartDate(),
-                                filmRoom.getProgrammingEndDate()
-            )));
+        if(result.isEmpty()){
+            return List.of();
         }
 
-        return filmsResponses;
+        List<FilmResponse> films = new ArrayList<>();
+        result.forEach(mapFilmRoom ->
+                films.add(convertMapFilmRoomToFilmResponse(mapFilmRoom)));
+
+        return films;
     }
 
     @Override
     public Map<String, Object> getFilmHistory(Integer pageNumber, Integer pageSize) {
-        return convertToResponse(mapFilmRoomRepository.getMapFilmRooms(PageRequest.of(pageNumber, pageSize)));
+        return convertToResponse(
+                mapFilmRoomRepository.getMapFilmRooms(
+                        PageRequest.of(
+                                pageNumber,
+                                pageSize,
+                                Sort.by("programmingStartDate").ascending())));
     }
 
     @Override
@@ -112,7 +112,7 @@ public class CineMilleServiceImpl implements CineMilleService {
     }
 
     private Map<String, Object> convertToResponse(final Page<MapFilmRoom> filmRoomPage) {
-        List<FilmsResponse> films = new ArrayList<>();
+        List<FilmResponse> films = new ArrayList<>();
         filmRoomPage.getContent().forEach(filmRoom -> {
             films.add(convertMapFilmRoomToFilmResponse(filmRoom));
         });
@@ -126,11 +126,11 @@ public class CineMilleServiceImpl implements CineMilleService {
         return result;
     }
 
-    private FilmsResponse convertMapFilmRoomToFilmResponse(final MapFilmRoom mapFilmRoom){
+    private FilmResponse convertMapFilmRoomToFilmResponse(final MapFilmRoom mapFilmRoom){
         Film film = mapFilmRoom.getFilm();
         Room room = mapFilmRoom.getRoom();
 
-        return new FilmsResponse(
+        return new FilmResponse(
                 film.getTitle(),
                 film.getDuration(),
                 room.getNumber(),
