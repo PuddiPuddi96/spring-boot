@@ -1,13 +1,14 @@
 package it.davide.lascaux.challenge.cinemille.rest;
 
 import io.swagger.v3.oas.annotations.Operation;
-import it.davide.lascaux.challenge.cinemille.model.FilmsResponse;
+import it.davide.lascaux.challenge.cinemille.model.FilmResponse;
 import it.davide.lascaux.challenge.cinemille.model.GetFilmsByFilterRequest;
 import it.davide.lascaux.challenge.cinemille.model.common.Result;
 import it.davide.lascaux.challenge.cinemille.service.CineMilleService;
 import it.davide.lascaux.challenge.cinemille.util.ExcelUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,14 +27,17 @@ public class CineMilleController {
         this.cineMilleService = cineMilleService;
     }
 
-    @PostMapping("/get-films-by-filter")
-    @Operation(method = "POST", summary = "", description = "")
-    public ResponseEntity<Result<List<FilmsResponse>>> getFilmsByFilter(
+    @PostMapping(
+            path = "/get-films-by-filter")
+    @Operation(
+            method = "POST",
+            description = "This method allows you to search for films by filtering by start and end date")
+    public ResponseEntity<Result<List<FilmResponse>>> getFilmsByFilter(
             @RequestBody GetFilmsByFilterRequest request) {
 
-        Result<List<FilmsResponse>> response = new Result<>();
+        Result<List<FilmResponse>> response = new Result<>();
 
-        List<FilmsResponse> result = cineMilleService.getFilmsByFilter(request);
+        List<FilmResponse> result = cineMilleService.getFilmsByFilter(request);
 
         response.setData(result);
         response.success(HttpStatus.OK.value());
@@ -41,12 +45,14 @@ public class CineMilleController {
         return ResponseEntity.status(HttpStatus.OK.value()).body(response);
     }
 
-    @PostMapping("/upload-films")
+    @PostMapping(
+            path = "/upload-films",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(
             method = "POST",
             description = "This method enables the upload of scheduled films contained in an excel file")
     public ResponseEntity<Result<String>> uploadFilmsFromExcel(
-            @RequestParam("file") MultipartFile file) {
+            @RequestPart("file") final MultipartFile file) {
 
         Result<String> response = new Result<>();
         if (ExcelUtility.hasExcelFormat(file)) {
@@ -74,8 +80,11 @@ public class CineMilleController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
-    @GetMapping("/get-films-history")
-    @Operation(method = "GET", summary = "", description = "")
+    @GetMapping(
+            path = "/get-films-history")
+    @Operation(
+            method = "GET",
+            description = "This method makes it possible to retrieve the film history")
     public ResponseEntity<Result<Map<String, Object>>> getFilmsHistory(
             @RequestParam(defaultValue = "0") final Integer pageNumber,
             @RequestParam(defaultValue = "5") final Integer size
