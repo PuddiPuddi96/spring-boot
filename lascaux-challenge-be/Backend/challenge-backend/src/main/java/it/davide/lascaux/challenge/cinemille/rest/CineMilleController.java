@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -72,6 +73,24 @@ public class CineMilleController {
                 HttpStatus.BAD_REQUEST.value()
         );
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @GetMapping("/get-films-history")
+    public ResponseEntity<Result<Map<String, Object>>> getFilmsHistory(
+            @RequestParam(defaultValue = "0") final Integer pageNumber,
+            @RequestParam(defaultValue = "5") final Integer size
+    ){
+        Result<Map<String, Object>> response = new Result<>();
+
+        Map<String, Object> result = cineMilleService.getFilmHistory(
+                pageNumber,
+                size
+        );
+
+        response.setData(result);
+        response.success(HttpStatus.OK.value());
+
+        return ResponseEntity.status(HttpStatus.OK.value()).body(response);
     }
 
 }

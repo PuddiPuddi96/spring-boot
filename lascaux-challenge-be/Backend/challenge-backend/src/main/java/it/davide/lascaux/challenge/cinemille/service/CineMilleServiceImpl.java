@@ -1,6 +1,5 @@
 package it.davide.lascaux.challenge.cinemille.service;
 
-import io.swagger.v3.core.util.Json;
 import it.davide.lascaux.challenge.cinemille.entity.Film;
 import it.davide.lascaux.challenge.cinemille.entity.MapFilmRoom;
 import it.davide.lascaux.challenge.cinemille.entity.Room;
@@ -12,14 +11,14 @@ import it.davide.lascaux.challenge.cinemille.repository.MapFilmRoomRepository;
 import it.davide.lascaux.challenge.cinemille.repository.RoomRepository;
 import it.davide.lascaux.challenge.cinemille.util.ExcelUtility;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class CineMilleServiceImpl implements CineMilleService {
@@ -60,6 +59,11 @@ public class CineMilleServiceImpl implements CineMilleService {
         return filmsResponses;
     }
 
+    @Override
+    public Map<String, Object> getFilmHistory(Integer pageNumber, Integer pageSize) {
+        return convertToResponse(mapFilmRoomRepository.getMapFilmRooms(PageRequest.of(pageNumber, pageSize)));
+    }
+
     @Transactional
     @Override
     public void uploadFilmsFromExcel(MultipartFile file) {
@@ -88,5 +92,33 @@ public class CineMilleServiceImpl implements CineMilleService {
         }catch (IOException ex){
             throw new RuntimeException("Excel data is failed to store");
         }
+    }
+
+    private Map<String, Object> convertToResponse(final Page<MapFilmRoom> filmRoomPage) {
+        List<FilmsResponse> films = new ArrayList<>();
+        filmRoomPage.getContent().forEach(filmRoom -> {
+            films.add(convertMapFilmRoomToFilmResponse(filmRoom));
+        });
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("films", films);
+        result.put("current-page", filmRoomPage.getNumber());
+        result.put("total-items", filmRoomPage.getTotalElements());
+        result.put("total-pages", filmRoomPage.getTotalPages());
+
+        return result;
+    }
+
+    private FilmsResponse convertMapFilmRoomToFilmResponse(final MapFilmRoom mapFilmRoom){
+        Film film = mapFilmRoom.getFilm();
+        Room room = mapFilmRoom.getRoom();
+
+        return new FilmsResponse(
+                film.getTitle(),
+                film.getDuration(),
+                room.getNumber(),
+                mapFilmRoom.getProgrammingStartDate(),
+                mapFilmRoom.getProgrammingEndDate()
+        );
     }
 }
